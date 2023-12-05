@@ -1,0 +1,38 @@
+---
+- name: Configure apache2/httpd on all servers
+  hosts: all
+  tasks:
+    - name: Install apache2 on ubuntu servers
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+    - name: Install httpd on redhat servers
+      yum:
+        name: httpd
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "RedHat"
+    - name: Edit the index.html file
+      copy:
+        content: "Welcome to Devops"
+        dest: /var/www/html/index.html
+    - name: Restart apache2 on ubuntu servers
+      service:
+        name: apache2
+        state: restarted
+      when: ansible_distribution == "Ubuntu"
+    - name: Restart httpd on rhel servers
+      service:
+         name: httpd
+         state: restarted
+      when: ansible_distribution == "RedHat"
+    - name: Check apache2/ httpd response on all servers
+      uri:
+        url: "{{item}}"
+        status_code: 200
+      with_items:
+        - http://172.31.27.164
+        - http://172.31.22.201
+        - http://172.31.80.179

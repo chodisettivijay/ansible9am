@@ -17,4 +17,4 @@
       always:
          - name: print success msg
            debug: 
-              msg: "Git installation successful"
+            msg: "Git installation successful"

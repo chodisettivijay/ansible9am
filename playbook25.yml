@@ -1,0 +1,13 @@
+---
+- name: capture OS info
+  hosts: all
+  tasks:
+    - name: Capure os name
+      debug:
+        msg: "{{ansible_distribution}}"
+    - name: Capture OS version
+      debug:
+        msg: "{{ansible_distribution_version}}"
+    - name: capure OS major version
+      debug:
+        msg: "{{ansible_distribution_major_version}}"
